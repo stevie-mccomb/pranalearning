@@ -4,9 +4,7 @@
 	<meta charset="utf-8" />
 	<title>Prana Learning</title>
 	<link rel="stylesheet" href="css/beauty.css" />
-	<script src="js/mootools/moocore.js"></script>
-	<script src="js/mootools/fx.reveal.js"></script>
-	<script src="js/classes/slider.js"></script>
-	<script src="js/vimeo/seeker.js"></script>
+	<script type="text/javascript" src="js/angular/angular.min.js"></script>
+	<script type="text/javascript" src="js/app.js"></script>
 </head>
-<body>
+<body ng-app="PranaLearning">

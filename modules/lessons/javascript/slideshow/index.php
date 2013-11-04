@@ -1,16 +1,13 @@
-<script>
-	document.addEvent('domready', function() {
-		var projectFiles = new Slider('slider_projectFiles', { hasSubMenu: true });
-		var chapterOne = new Slider('slider_chapterOne', { hasSubMenu: true });
-		var chapterTwo = new Slider('slider_chapterTwo', { hasSubMenu: true });
-		var chapterThree = new Slider('slider_chapterThree', { hasSubMenu: true });
-		var chapterFour = new Slider('slider_chapterFour');
-	});
-</script>
-
 <div id="container">
 
-	<div id="sidebar">
+	<div id="sidebar" sidebar data-lesson="{{ getLesson('09j34faiwdmf') }}">
+		<div class="slider" ng-repeat="chapter in lesson.chapters" slider>
+			<div class="button" ng-click="open()">
+				<h3>Chapter {{ ($index + 1) }} - {{ lesson.chapters[$index].name }}</h3>
+			</div>
+		</div>
+	</div>
+	<!-- <div id="sidebar">
 		<div id="slider_projectFiles">
 			<div class="button">
 				<h3>Project Files</h3>
@@ -103,7 +100,7 @@
 				<h3>Take the Test</h3>
 			</div></a>
 		</div>
-	</div>
+	</div> -->
 
 	<div id="content">
 		<iframe content-type="video/mp4" src="http://player.vimeo.com/video/74582326?api=1;player_id=lessonVideo" id="lessonVideo" width="720" height="540" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
