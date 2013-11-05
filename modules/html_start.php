@@ -5,6 +5,7 @@
 	<title>Prana Learning</title>
 	<link rel="stylesheet" href="css/beauty.css" />
 	<script type="text/javascript" src="js/angular/angular.min.js"></script>
+	<script type="text/javascript" src="js/angular/angular-resource.js"></script>
 	<script type="text/javascript" src="js/app.js"></script>
 </head>
 <body ng-app="PranaLearning">

@@ -185,10 +185,6 @@ body {
 	text-decoration: none;
 }
 
-.masterSlide, .subSlide {
-	display: none;
-}
-
 #sidebar .button {
 	width: 240px;
 	height: 35px;
@@ -211,7 +207,7 @@ body {
 	cursor: pointer;
 }
 
-#sidebar .button h3 {
+#sidebar .button h4 {
 	color: #333333;
 	font-size: 1em;
 	font-weight: bold;
@@ -273,7 +269,7 @@ body {
 	cursor: pointer;
 }
 
-#sidebar .deepButton h3 {
+#sidebar .deepButton h4 {
 	color: #d6d6d6;
 	font-size: 1em;
 	font-weight: normal;

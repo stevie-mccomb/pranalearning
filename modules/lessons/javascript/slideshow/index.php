@@ -1,9 +1,37 @@
 <div id="container">
 
 	<div id="sidebar" sidebar data-lesson="{{ getLesson('09j34faiwdmf') }}">
-		<div class="slider" ng-repeat="chapter in lesson.chapters" slider>
-			<div class="button" ng-click="open()">
-				<h3>Chapter {{ ($index + 1) }} - {{ lesson.chapters[$index].name }}</h3>
+		<div class="slider" slider>
+			<div class="project-files-container">
+				<div class="button" ng-click="openChapter('files')"><h4>Project Files</h4></div>
+				<div class="content-container" ng-show="chapterOpen == 'files'">
+					<div class="subButton" ng-click="openSection('source')"><h4>Source Code / Images</h4></div>
+					<div class="source-content" ng-show="sectionOpen == 'source'">
+						<div class="deepButton" ng-click="downloadSource()"><h4>Entire Source</h4></div>
+						<div class="deepButton" ng-click="downloadSource('html')"><h4>HTML</h4></div>
+						<div class="deepButton" ng-click="downloadSource('css')"><h4>CSS</h4></div>
+					</div>
+					<div class="subButton" ng-click="openSection('additional')"><h4>Additional Materials</h4></div>
+					<div class="content-container" ng-show="sectionOpen == 'additional'">
+						<a target="_blank" href="?doc=how-to"><div class="deepButton"><h4>How to Use This Course</h4></div></a>
+						<a target="_blank" href="?doc=help"><div class="deepButton"><h4>Help Section</h4></div></a>
+						<a target="_blank" href="http://mootools.net/docs/core"><div class="deepButton"><h4>FAQS / Glossary</h4></div></a>
+					</div>
+				</div>
+			</div>
+			<div class="chapter-container" ng-repeat="chapter in lesson.chapters">
+				<div class="button" ng-click="openChapter($index)"><h4>Chapter {{ ($index + 1) }} - {{ chapter.name }}</h4></div>
+				<div class="content-container" ng-show="chapterOpen == $index">
+					<div class="section-container" ng-repeat="section in chapter.sections">
+						<div class="subButton" ng-click="openSection($index)"><h4>Section {{ ($index + 1) }} - {{ section.name }}</h4></div>
+						<div class="section-content" ng-show="sectionOpen == $index">
+							<div class="deepButton" ng-repeat="article in section.articles"><h4>Article {{ ($index + 1) }} - {{ article.name }}</h4></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="test-button-container">
+				<a href="test"><div class="button"><h4>Take the Test</h4></div></a>
 			</div>
 		</div>
 	</div>
