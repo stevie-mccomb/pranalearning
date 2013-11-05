@@ -23,9 +23,10 @@
 				<div class="button" ng-click="openChapter($index)"><h4>Chapter {{ ($index + 1) }} - {{ chapter.name }}</h4></div>
 				<div class="content-container" ng-show="chapterOpen == $index">
 					<div class="section-container" ng-repeat="section in chapter.sections">
-						<div class="subButton" ng-click="openSection($index)"><h4>Section {{ ($index + 1) }} - {{ section.name }}</h4></div>
+						<div class="subButton" ng-click="seekTo(section.seek)" ng-show="section.seek >= 0"><h4>Section {{ ($index + 1) }} - {{ section.name }}</h4></div>
+						<div class="subButton" ng-click="openSection($index)" ng-show="!section.seek"><h4>Section {{ ($index + 1) }} - {{ section.name }}</h4></div>
 						<div class="section-content" ng-show="sectionOpen == $index">
-							<div class="deepButton" ng-repeat="article in section.articles"><h4>Article {{ ($index + 1) }} - {{ article.name }}</h4></div>
+							<div class="deepButton" ng-repeat="article in section.articles" ng-click="seekTo(article.seek)"><h4>Article {{ ($index + 1) }} - {{ article.name }}</h4></div>
 						</div>
 					</div>
 				</div>

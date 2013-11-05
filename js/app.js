@@ -1,4 +1,4 @@
-var app = angular.module('PranaLearning', ['ngResource'])
+var app = angular.module('PranaLearning', [])
 
 var LessonFactory = app.factory('LessonFactory', ['$rootScope', function($rootScope) {
 	return {
@@ -6,6 +6,7 @@ var LessonFactory = app.factory('LessonFactory', ['$rootScope', function($rootSc
 			'09j34faiwdmf': {
 				'language': 'javascript',
 				'videoUrl': 'http://player.vimeo.com/video/74582326?api=1;player_id=lessonVideo',
+				'srcDirectory': 'modules/lessons/javascript/slideshow/',
 				'chapters': {
 					'0': {
 						'name': 'The Setup',
@@ -15,11 +16,11 @@ var LessonFactory = app.factory('LessonFactory', ['$rootScope', function($rootSc
 								'articles': {
 									'0': {
 										'name': 'HTML',
-										'data-seek': '48'
+										'seek': '48'
 									},
 									'1': {
 										'name': 'CSS',
-										'data-seek': '98'
+										'seek': '98'
 									}
 								}
 							},
@@ -28,7 +29,7 @@ var LessonFactory = app.factory('LessonFactory', ['$rootScope', function($rootSc
 								'articles': {
 									'0': {
 										'name': 'Class Setup',
-										'data-seek': '122'
+										'seek': '122'
 									}
 								}
 							}
@@ -41,13 +42,16 @@ var LessonFactory = app.factory('LessonFactory', ['$rootScope', function($rootSc
 								'name': 'Creating Assets',
 								'articles': {
 									'0': {
-										'name': 'Slideshow Element'
+										'name': 'Slideshow Element',
+										'seek': '390'
 									},
 									'1': {
-										'name': 'Arrows'
+										'name': 'Arrows',
+										'seek': '460'
 									},
 									'2': {
-										'name': 'Slides'
+										'name': 'Slides',
+										'seek': '514'
 									}
 								}
 							},
@@ -55,10 +59,12 @@ var LessonFactory = app.factory('LessonFactory', ['$rootScope', function($rootSc
 								'name': 'Adding Action',
 								'articles': {
 									'0': {
-										'name': 'Event Listeners'
+										'name': 'Event Listeners',
+										'seek': '640'
 									},
 									'1': {
-										'name': 'Console Functions'
+										'name': 'Console Functions',
+										'seek': '694'
 									}
 								}
 							}
@@ -71,16 +77,20 @@ var LessonFactory = app.factory('LessonFactory', ['$rootScope', function($rootSc
 								'name': 'Next Image',
 								'articles': {
 									'0': {
-										'name': 'For Loop'
+										'name': 'For Loop',
+										'seek': '760'
 									},
 									'1': {
-										'name': 'Current Image'
+										'name': 'Current Image',
+										'seek': '845'
 									},
 									'2': {
-										'name': 'Cycling'
+										'name': 'Cycling',
+										'seek': '885'
 									},
 									'3': {
-										'name': 'Animation'
+										'name': 'Animation',
+										'seek': '958'
 									}
 								}
 							},
@@ -88,13 +98,16 @@ var LessonFactory = app.factory('LessonFactory', ['$rootScope', function($rootSc
 								'name': 'Change Priority',
 								'articles': {
 									'0': {
-										'name': 'Animation Binding'
+										'name': 'Animation Binding',
+										'seek': '1100'
 									},
 									'1': {
-										'name': 'Remove Class'
+										'name': 'Remove Class',
+										'seek': '1284'
 									},
 									'2': {
-										'name': 'Add Class'
+										'name': 'Add Class',
+										'seek': '1290'
 									}
 								}
 							},
@@ -102,10 +115,12 @@ var LessonFactory = app.factory('LessonFactory', ['$rootScope', function($rootSc
 								'name': 'Previous Image',
 								'articles': {
 									'0': {
-										'name': 'Copy/Paste'
+										'name': 'Copy/Paste',
+										'seek': '1320'
 									},
 									'1': {
-										'name': 'Reworking'
+										'name': 'Reworking',
+										'seek': '1342'
 									}
 								}
 							}
@@ -115,7 +130,8 @@ var LessonFactory = app.factory('LessonFactory', ['$rootScope', function($rootSc
 						'name': 'Final Thoughts',
 						'sections': {
 							'0': {
-								'name': 'Adding Links'
+								'name': 'Adding Links',
+								'seek': '1430'
 							}
 						}
 					}
@@ -130,6 +146,21 @@ var sidebar = app.directive('sidebar', ['$rootScope', 'LessonFactory', function(
 		link: function(scope, elem) {
 			scope.getLesson = function(lessonId) {
 				scope.lesson = LessonFactory.lessons[lessonId];
+			}
+			scope.downloadSource = function(type) {
+				var directory = scope.lesson.srcDirectory;
+				switch(type) {
+					case 'html':
+						window.location = directory + 'html.zip';
+					break;
+					case 'css':
+						window.location = directory + 'css.zip';
+					break;
+					default:
+						// download all
+						window.location = directory + 'src.zip';
+					break;
+				}
 			}
 		}
 	}
@@ -153,18 +184,15 @@ var slider = app.directive('slider', ['$rootScope', '$timeout', function($rootSc
 					scope.sectionOpen = sectionNum;
 				}
 			}
-			scope.downloadSource = function(type) {
-				switch(type) {
-					case 'html':
-						// nada
-					break;
-					case 'css':
-						// nada
-					break;
-					default:
-						// download all
-					break;
+			scope.seekTo = function(seekValue) {
+				var videoElement = document.getElementById('lessonVideo');
+				if (videoElement) {
+					var url = videoElement.src.split('?')[0];
 				}
+				var data = new Object();
+				data.method = 'seekTo';
+				data.value = seekValue;
+				videoElement.contentWindow.postMessage(JSON.stringify(data), url);
 			}
 		}
 	}
