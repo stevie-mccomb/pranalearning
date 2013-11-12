@@ -7,21 +7,41 @@ function viewRouter($routeProvider) {
 		.when('/home', {
 			templateUrl: 'partials/home.html'
 		})
-		.when('/lessons/:language', {
-			templateUrl: 'partials/lessons.html'
+		.when('/how-to-use', {
+			templateUrl: 'partials/how-to-use.html'
+		})
+		.when('/language/:language', {
+			templateUrl: 'partials/language.html',
+			controller: function($scope, $routeParams) {
+				$scope.language = $routeParams.language;
+			}
 		})
 		.otherwise({templateUrl: 'partials/home.html'});
 };
 
-app.directive('slideshow', [function() {
+// Directives
+app.directive('slideshow', ['$http', function($http) {
 	return {
 		link: function(scope, elem) {
+			$http.post('data/get-slides.php').success(function(data) {
+				scope.slides = data;
+				console.log(scope.slides[0]);
+			});
+
+			scope.gallery = {
+				current: 0
+			};
+
 			scope.next = function() {
-				console.log('next');
+				if (++scope.gallery.current > 2) {
+					scope.gallery.current = 0;
+				}
 			};
 
 			scope.previous = function() {
-				console.log('previous');
+				if (--scope.gallery.current < 0) {
+					scope.gallery.current = 2;
+				}
 			};
 		}
 	}
