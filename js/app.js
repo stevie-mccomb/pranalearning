@@ -1,4 +1,31 @@
-var app = angular.module('PranaLearning', [])
+var app = angular.module('PranaLearning', ['ngRoute'])
+	.config(viewRouter);
+
+// Routes
+function viewRouter($routeProvider) {
+	$routeProvider
+		.when('/home', {
+			templateUrl: 'partials/home.html'
+		})
+		.when('/lessons/:language', {
+			templateUrl: 'partials/lessons.html'
+		})
+		.otherwise({templateUrl: 'partials/home.html'});
+};
+
+app.directive('slideshow', [function() {
+	return {
+		link: function(scope, elem) {
+			scope.next = function() {
+				console.log('next');
+			};
+
+			scope.previous = function() {
+				console.log('previous');
+			};
+		}
+	}
+}]);
 
 var LessonFactory = app.factory('LessonFactory', ['$rootScope', function($rootScope) {
 	return {
