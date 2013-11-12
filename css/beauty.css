@@ -70,7 +70,7 @@ body {
 }
 
 .nav li ul li:hover {
-	background: #efa600;
+	background: #ffcc00;
 }
 
 /* ---- Homepage ---- */
@@ -105,6 +105,11 @@ body {
 	left: 0;
 }
 
+.slide {
+	width: 100%;
+	height: 100%;
+}
+
 .well {
 	background: #efefef;
 	border-radius: 10px;
@@ -117,6 +122,8 @@ body {
 	height: 50px;
 	background: #ffbb00;
 	box-shadow: 0 0 5px #000;
+	position: relative;
+	z-index: 1;
 }
 
 .well h2 {
@@ -130,7 +137,7 @@ body {
 	min-height: 420px;
 	margin-left: 3%;
 	margin-bottom: 20px;
-	float: left;
+	display: inline-block;
 }
 
 .featured-author {
@@ -138,7 +145,9 @@ body {
 	min-height: 420px;
 	margin-right: 3%;
 	margin-bottom: 20px;
-	float: right;
+	display: inline-block;
+	position: absolute;
+	right: 0;
 }
 
 .featured-image {
@@ -170,4 +179,28 @@ body {
 	position: relative;
 	left: 50%;
 	margin-left: -80px;
+	background: #ffbb00;
+	border: 1px solid #efa600;
+	border-radius: 5px;
+	transition: 0.2s;
+}
+
+.featured-button:hover {
+	background: #ffcc00;
+}
+
+/* ---- Footer ---- */
+
+.footer {
+	width: 100%;
+	height: 42px;
+	background: #ffbb00;
+	margin-top: 20px;
+}
+
+.footer p {
+	color: #333;
+	float: right;
+	line-height: 42px;
+	margin-right: 3%;
 }
