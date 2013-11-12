@@ -202,6 +202,116 @@ body {
 	background: #ffcc00;
 }
 
+/* ---- Language Pages ---- */
+
+.languages-well {
+	width: 94%;
+	margin-top: 20px;
+	margin-left: 3%;
+}
+
+.languages-well h2 {
+	color: #ffbb00;
+	font-size: 32px;
+	text-transform: capitalize;
+}
+
+.language-well {
+	width: 94%;
+	margin-top: 20px;
+	margin-left: 3%;
+}
+
+.selection-container {
+	width: 25%;
+	float: left;
+	position: relative;
+	margin-top: 40px;
+	margin-bottom: 60px;
+}
+
+.selection-container a {
+	text-decoration: none;
+}
+
+.lesson-selection {
+	cursor: pointer;
+	width: 160px;
+	height: 160px;
+	border-radius: 100%;
+	background: #ffbb00;
+	box-shadow: 0 0 10px #666;
+	position: relative;
+	left: 50%;
+	margin-left: -80px;
+	-moz-transition: 0.2s;
+	-webkit-transition: 0.2s;
+	-o-transition: 0.2s;
+	transition: 0.2s;
+}
+
+.lesson-selection:before {
+	content: ' ';
+	width: 140px;
+	height: 140px;
+	border-radius: 100%;
+	background: #ffffff;
+	box-shadow: 0 0 5px #666;
+	position: absolute;
+	margin: 10px;
+	-moz-transition: padding 0.2s, border-radius 0.2s, margin 0.2s;
+	-webkit-transition: padding 0.2s, border-radius 0.2s, margin 0.2s;
+	-o-transition: padding 0.2s, border-radius 0.2s, margin 0.2s;
+	transition: padding 0.2s, border-radius 0.2s, margin 0.2s;
+}
+
+.lesson-selection:hover.lesson-selection:before {
+	padding: 4px;
+	border-radius: 90px;
+	margin: 6px;
+}
+
+.lesson-selection p {
+	color: #000000;
+	max-width: 160px;
+	max-height: 160px;
+	padding-left: 10px;
+	padding-right: 10px;
+	font-size: 1.2em;
+	text-decoration: none;
+	position: relative;
+	z-index: 2;
+	display: table-cell;
+	width: 160px;
+	height: 160px;
+	text-align: center;
+	vertical-align: middle;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+}
+
+.lesson-header {
+	position: relative;
+	z-index: 1;
+	box-shadow: 0 0 5px #000;
+}
+
+.sidebar {
+	position: relative;
+	z-index: 0;
+	width: 20%;
+	height: 320px;
+	background: #d6d6d6;
+	border-right: 1px solid #a6a6a6;
+}
+
+.sidebar .button {
+	width: 100%;
+	height: 42px;
+	background: #666;
+}
+
 /* ---- How to Use ---- */
 
 .how-to-use {

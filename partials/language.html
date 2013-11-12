@@ -1,4 +1,9 @@
 
-<div class="language-container">
-
+<div class="lessons-container" lessons-container>
+	<div class="languages-well well">
+		<h2>{{ language }}</h2>
+		<div class="selection-container" ng-repeat="lesson in lessons">
+			<a ng-href="#/lessons/{{ lesson.language }}/{{ lesson.name }}"><div class="lesson-selection"><p>{{ lesson.name }}</p></div></a>
+		</div>
+	</div>
 </div>

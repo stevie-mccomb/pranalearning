@@ -16,6 +16,13 @@ function viewRouter($routeProvider) {
 				$scope.language = $routeParams.language;
 			}
 		})
+		.when('/lessons/:language/:lessonName',{
+			templateUrl: 'partials/lesson.html',
+			controller: function($scope, $routeParams) {
+				$scope.language = $routeParams.language;
+				$scope.lessonName = $routeParams.lessonName;
+			}
+		})
 		.otherwise({templateUrl: 'partials/home.html'});
 };
 
@@ -25,17 +32,10 @@ app.directive('slideshow', ['$http', function($http) {
 		link: function(scope, elem) {
 			$http.post('data/get-slides.php').success(function(data) {
 				scope.slides = data;
-				console.log(scope.slides[0]);
 			});
 
 			scope.gallery = {
 				current: 0
-			};
-
-			scope.next = function() {
-				if (++scope.gallery.current > 2) {
-					scope.gallery.current = 0;
-				}
 			};
 
 			scope.previous = function() {
@@ -43,155 +43,44 @@ app.directive('slideshow', ['$http', function($http) {
 					scope.gallery.current = 2;
 				}
 			};
-		}
-	}
-}]);
 
-var LessonFactory = app.factory('LessonFactory', ['$rootScope', function($rootScope) {
-	return {
-		lessons: {
-			'09j34faiwdmf': {
-				'language': 'javascript',
-				'videoUrl': 'http://player.vimeo.com/video/74582326?api=1;player_id=lessonVideo',
-				'srcDirectory': 'modules/lessons/javascript/slideshow/',
-				'chapters': {
-					'0': {
-						'name': 'The Setup',
-						'sections': {
-							'0': {
-								'name': 'The DOM',
-								'articles': {
-									'0': {
-										'name': 'HTML',
-										'seek': '48'
-									},
-									'1': {
-										'name': 'CSS',
-										'seek': '98'
-									}
-								}
-							},
-							'1': {
-								'name': 'JavaScript',
-								'articles': {
-									'0': {
-										'name': 'Class Setup',
-										'seek': '122'
-									}
-								}
-							}
-						}
-					},
-					'1': {
-						'name': 'Initialize',
-						'sections': {
-							'0': {
-								'name': 'Creating Assets',
-								'articles': {
-									'0': {
-										'name': 'Slideshow Element',
-										'seek': '390'
-									},
-									'1': {
-										'name': 'Arrows',
-										'seek': '460'
-									},
-									'2': {
-										'name': 'Slides',
-										'seek': '514'
-									}
-								}
-							},
-							'1': {
-								'name': 'Adding Action',
-								'articles': {
-									'0': {
-										'name': 'Event Listeners',
-										'seek': '640'
-									},
-									'1': {
-										'name': 'Console Functions',
-										'seek': '694'
-									}
-								}
-							}
-						}
-					},
-					'2': {
-						'name': 'Functions',
-						'sections': {
-							'0': {
-								'name': 'Next Image',
-								'articles': {
-									'0': {
-										'name': 'For Loop',
-										'seek': '760'
-									},
-									'1': {
-										'name': 'Current Image',
-										'seek': '845'
-									},
-									'2': {
-										'name': 'Cycling',
-										'seek': '885'
-									},
-									'3': {
-										'name': 'Animation',
-										'seek': '958'
-									}
-								}
-							},
-							'1': {
-								'name': 'Change Priority',
-								'articles': {
-									'0': {
-										'name': 'Animation Binding',
-										'seek': '1100'
-									},
-									'1': {
-										'name': 'Remove Class',
-										'seek': '1284'
-									},
-									'2': {
-										'name': 'Add Class',
-										'seek': '1290'
-									}
-								}
-							},
-							'2': {
-								'name': 'Previous Image',
-								'articles': {
-									'0': {
-										'name': 'Copy/Paste',
-										'seek': '1320'
-									},
-									'1': {
-										'name': 'Reworking',
-										'seek': '1342'
-									}
-								}
-							}
-						}
-					},
-					'3': {
-						'name': 'Final Thoughts',
-						'sections': {
-							'0': {
-								'name': 'Adding Links',
-								'seek': '1430'
-							}
-						}
-					}
+			scope.next = function() {
+				if (++scope.gallery.current > 2) {
+					scope.gallery.current = 0;
 				}
-			}
+			};
 		}
 	}
 }]);
 
-var sidebar = app.directive('sidebar', ['$rootScope', 'LessonFactory', function($rootScope, LessonFactory) {
+app.directive('lessonsContainer', ['$http', function($http) {
 	return {
 		link: function(scope, elem) {
-			scope.getLesson = function(lessonId) {
+			/*$http({method: 'POST', url:'data/get-lessons.php', data: scope.language}).success(function(data) {
+				scope.lessons= data;
+			});*/
+			$http.post('data/get-lessons.php', scope.language).success(function(data) {
+				scope.lessons = data;
+			});
+		}
+	}
+}]);
+
+app.directive('lessonContainer', [function() {
+	return {
+		link: function(scope, elem) {
+			
+		}
+	}
+}]);
+
+var sidebar = app.directive('sidebar', ['$http', function($http) {
+	return {
+		link: function(scope, elem) {
+			$http.post('data/get-lesson.php', scope.language).success(function(data) {
+				scope.lesson = data;
+			});
+			/*scope.getLesson = function(lessonId) {
 				scope.lesson = LessonFactory.lessons[lessonId];
 			}
 			scope.downloadSource = function(type) {
@@ -208,7 +97,7 @@ var sidebar = app.directive('sidebar', ['$rootScope', 'LessonFactory', function(
 						window.location = directory + 'src.zip';
 					break;
 				}
-			}
+			}*/
 		}
 	}
 }]);
