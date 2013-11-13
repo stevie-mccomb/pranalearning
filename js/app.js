@@ -16,12 +16,21 @@ function viewRouter($routeProvider) {
 				$scope.language = $routeParams.language;
 			}
 		})
-		.when('/lessons/:language/:lessonName',{
+		.when('/authors/:authorCode', {
+			templateUrl: 'partials/author.html',
+			controller: function($scope, $routeParams) {
+				$scope.authorCode = $routeParams.authorCode;
+			}
+		})
+		.when('/lessons/:language/:lessonName', {
 			templateUrl: 'partials/lesson.html',
 			controller: function($scope, $routeParams) {
 				$scope.language = $routeParams.language;
 				$scope.lessonName = $routeParams.lessonName;
 			}
+		})
+		.when('/docs', {
+			templateUrl: 'partials/docs.html'
 		})
 		.otherwise({templateUrl: 'partials/home.html'});
 };
@@ -56,72 +65,48 @@ app.directive('slideshow', ['$http', function($http) {
 app.directive('lessonsContainer', ['$http', function($http) {
 	return {
 		link: function(scope, elem) {
-			/*$http({method: 'POST', url:'data/get-lessons.php', data: scope.language}).success(function(data) {
+			$http({
+				method: 'POST',
+				url:'data/get-lessons.php',
+				data: scope.language,
+				headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+			}).success(function(data) {
 				scope.lessons= data;
-			});*/
-			$http.post('data/get-lessons.php', scope.language).success(function(data) {
-				scope.lessons = data;
 			});
 		}
 	}
 }]);
 
-app.directive('lessonContainer', [function() {
+app.directive('slider', ['$http', '$sce', function($http, $sce) {
 	return {
 		link: function(scope, elem) {
-			
-		}
-	}
-}]);
-
-var sidebar = app.directive('sidebar', ['$http', function($http) {
-	return {
-		link: function(scope, elem) {
-			$http.post('data/get-lesson.php', scope.language).success(function(data) {
+			$http({
+				method: 'POST',
+				url:'data/get-lesson.php',
+				data: scope.lessonName,
+				headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+			}).success(function(data) {
 				scope.lesson = data;
+				scope.chapters = eval("(" + scope.lesson.chapters + ")");
+				scope.videoUrl = $sce.trustAsResourceUrl(scope.lesson.videoUrl);
 			});
-			/*scope.getLesson = function(lessonId) {
-				scope.lesson = LessonFactory.lessons[lessonId];
-			}
-			scope.downloadSource = function(type) {
-				var directory = scope.lesson.srcDirectory;
-				switch(type) {
-					case 'html':
-						window.location = directory + 'html.zip';
-					break;
-					case 'css':
-						window.location = directory + 'css.zip';
-					break;
-					default:
-						// download all
-						window.location = directory + 'src.zip';
-					break;
-				}
-			}*/
-		}
-	}
-}]);
-
-var slider = app.directive('slider', ['$rootScope', '$timeout', function($rootScope, $timeout) {
-	return {
-		link: function(scope, elem) {
-			scope.openChapter = function(chapterNum) {
-				if (scope.chapterOpen == chapterNum) {
+			scope.openChapter = function(chapterName) {
+				if (scope.chapterOpen == chapterName) {
 					scope.chapterOpen = undefined;
 				} else {
-					scope.chapterOpen = chapterNum;
+					scope.chapterOpen = chapterName;
 				}
 				scope.sectionOpen = undefined;
 			}
-			scope.openSection = function(sectionNum) {
-				if (scope.sectionOpen == sectionNum) {
+			scope.openSection = function(sectionName) {
+				if (scope.sectionOpen == sectionName) {
 					scope.sectionOpen = undefined;
 				} else {
-					scope.sectionOpen = sectionNum;
+					scope.sectionOpen = sectionName;
 				}
 			}
 			scope.seekTo = function(seekValue) {
-				var videoElement = document.getElementById('lessonVideo');
+				var videoElement = document.getElementsByClassName('lesson-video')[0];
 				if (videoElement) {
 					var url = videoElement.src.split('?')[0];
 				}
@@ -130,6 +115,21 @@ var slider = app.directive('slider', ['$rootScope', '$timeout', function($rootSc
 				data.value = seekValue;
 				videoElement.contentWindow.postMessage(JSON.stringify(data), url);
 			}
+		}
+	}
+}]);
+
+app.directive('authorContainer', ['$http', function($http) {
+	return {
+		link: function(scope, elem) {
+			$http({
+				method: 'POST',
+				url:'data/get-author.php',
+				data: scope.authorCode,
+				headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+			}).success(function(data) {
+				scope.author = data;
+			});
 		}
 	}
 }]);

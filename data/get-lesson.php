@@ -1,7 +1,6 @@
 <?php
 
-	$lessonName = json_decode(file_get_contents("php://input"));
-	$lessonName = 'Making a Slideshow';
+	$lessonName = file_get_contents("php://input");
 
 	require 'idiorm.php';
 	require 'db-connection.php';

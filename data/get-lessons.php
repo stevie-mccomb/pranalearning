@@ -1,7 +1,6 @@
 <?php
 
-	$givenLanguage = json_decode(file_get_contents("php://input"));
-	$givenLanguage = 'javascript';
+	$givenLanguage = file_get_contents("php://input");
 
 	require 'idiorm.php';
 	require 'db-connection.php';

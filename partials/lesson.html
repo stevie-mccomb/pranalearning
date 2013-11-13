@@ -1,10 +1,25 @@
 
 <div class="lesson-container" lesson-container>
-	<div class="language-well well">
-		<div class="lesson-header"><h2>{{ lesson.name }}</h2></div>
+	<div class="lesson-well well">
+		<div class="lesson-header"><h2><span style="text-transform: capitalize;">{{ language }}</span> - {{ lesson.name }}</h2></div>
 
-		<div class="sidebar" sidebar>
-			<div class="button"></div>
+		<div class="sidebar" slider>
+			<div class="chapter-container" ng-repeat="chapter in chapters">
+				<div class="button" ng-click="openChapter(chapter.name)">{{ chapter.name }}</div>
+				<div class="section-container" ng-repeat="section in chapter.sections" ng-if="chapterOpen == chapter.name">
+					<!-- No Seek -->
+					<div class="sub-button" ng-if="!section.seek" ng-click="openSection(section.name)">{{ section.name }}</div>
+					<div class="article-container" ng-repeat="article in section.articles" ng-if="sectionOpen == section.name">
+						<div class="deep-button" ng-click="seekTo(article.seek)">{{ article.name }}</div>
+					</div>
+					<!-- Seek -->
+					<div class="sub-button" ng-if="section.seek" ng-click="seekTo(section.seek)">{{ section.name }}</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="video-container">
+			<iframe content-type="video/mp4" ng-src="{{ videoUrl }}" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen class="lesson-video"></iframe>
 		</div>
 		
 	</div>
