@@ -36,27 +36,79 @@ function viewRouter($routeProvider) {
 };
 
 // Directives
-app.directive('slideshow', ['$http', function($http) {
+app.directive('slideshow', ['$http', '$animate', '$timeout', '$rootScope', function($http, $animate, $timeout, $rootScope) {
 	return {
 		link: function(scope, elem) {
 			$http.post('data/get-slides.php').success(function(data) {
-				scope.slides = data;
+				$rootScope.slides = data;
 			});
 
+			/* ---- Resize Slides to Fit Window ---- */
+			scope.getWindowWidth = function() {
+				return window.innerWidth;
+			};
+			scope.$watch(scope.getWindowWidth, function(newVal, oldVal) {
+				$rootScope.browserWidth = function() {
+					return newVal;
+				}
+			});
+			window.onresize = function() {
+				scope.$apply();
+			};
+			/* ---- End Resize ---- */
+
+			scope.slideRack = elem.children()[2];
+			scope.startingWidth = scope.slideRack.offsetWidth;
+
+			scope.rackWidth = function() {
+				if (angular.isDefined(scope.slides)) {
+					return scope.startingWidth * $rootScope.slides.length;
+				}
+			};
+		}
+	}
+}]);
+
+app.directive('slideRack', ['$animate', '$timeout', '$rootScope', function($animate, $timeout, $rootScope) {
+	return {
+		restrict: 'C',
+		link: function(scope, elem) {
 			scope.gallery = {
 				current: 0
 			};
 
+			var currentSlideMargin = 0;
+
+			scope.slideMargin = function() {
+				return currentSlideMargin;
+			};
+
 			scope.previous = function() {
+				if (scope.animating) { return; }
+				scope.animating = true;
 				if (--scope.gallery.current < 0) {
-					scope.gallery.current = 2;
+					scope.gallery.current = $rootScope.slides.length - 1;
+					currentSlideMargin = -($rootScope.browserWidth() * ($rootScope.slides.length - 1));
+				} else {
+					currentSlideMargin = currentSlideMargin + $rootScope.browserWidth();
 				}
+				$timeout(function() {
+					scope.animating = false;
+				}, 1000);
 			};
 
 			scope.next = function() {
-				if (++scope.gallery.current > 2) {
+				if (scope.animating) { return; }
+				scope.animating = true;
+				if (++scope.gallery.current > $rootScope.slides.length - 1) {
 					scope.gallery.current = 0;
+					currentSlideMargin = 0;
+				} else {
+					currentSlideMargin = currentSlideMargin - $rootScope.browserWidth();
 				}
+				$timeout(function() {
+					scope.animating = false;
+				}, 1000);
 			};
 		}
 	}
