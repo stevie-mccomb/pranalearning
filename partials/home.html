@@ -3,7 +3,7 @@
 	<img src="images/arrow-left.png" alt="" class="arrow" ng-click="previous()" />
 	<img src="images/arrow-right.png" alt="" class="arrow" ng-click="next()" />
 	<div class="slide-rack" style="width: {{ rackWidth() + 100 }}px; margin-left: {{ slideMargin() }}px;">
-		<div class="slide" ng-repeat="slide in slides" style="width: {{ browserWidth() }}px; background: url('{{ slide.url }}'); background-position: center center;"></div>
+		<div class="slide ng-cloak" ng-repeat="slide in slides" style="width: {{ browserWidth() }}px; background: url('{{ slide.url }}'); background-position: center center; display: {{ getSlideDisplay() }};"></div>
 	</div>
 </div>
 

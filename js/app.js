@@ -43,6 +43,8 @@ app.directive('slideshow', ['$http', '$animate', '$timeout', '$rootScope', funct
 				$rootScope.slides = data;
 			});
 
+			scope.displaySlides = false;
+
 			/* ---- Resize Slides to Fit Window ---- */
 			scope.getWindowWidth = function() {
 				return window.innerWidth;
@@ -63,6 +65,18 @@ app.directive('slideshow', ['$http', '$animate', '$timeout', '$rootScope', funct
 			scope.rackWidth = function() {
 				if (angular.isDefined(scope.slides)) {
 					return scope.startingWidth * $rootScope.slides.length;
+				}
+			};
+
+			$timeout(function() {
+				scope.displaySlides = true;
+			}, 1000);
+
+			scope.getSlideDisplay = function() {
+				if (scope.displaySlides == true) {
+					return 'block';
+				} else {
+					return 'none';
 				}
 			};
 		}
