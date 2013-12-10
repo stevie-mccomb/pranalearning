@@ -70,7 +70,7 @@ app.directive('slideshow', ['$http', '$animate', '$timeout', '$rootScope', funct
 
 			$timeout(function() {
 				scope.displaySlides = true;
-			}, 1000);
+			}, 2000);
 
 			scope.getSlideDisplay = function() {
 				if (scope.displaySlides == true) {
